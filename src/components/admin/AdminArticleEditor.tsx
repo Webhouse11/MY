@@ -34,6 +34,11 @@ interface AdminArticleEditorProps {
 
 const CURATED_IMAGE_PRESETS = [
   {
+    name: 'CPEN Crypto Surge & Chart Analysis',
+    url: 'https://res.cloudinary.com/dhzouslh1/image/upload/v1787127451/unnamed_hy6jq4.png',
+    tag: 'Blockchain Fortune / Crypto'
+  },
+  {
     name: 'RUTH: The Informant Book Cover',
     url: 'https://res.cloudinary.com/dhzouslh1/image/upload/v1787001520/1780408439687553-0_jfsnd5.jpg',
     tag: 'Book / Motivation'

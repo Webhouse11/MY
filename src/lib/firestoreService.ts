@@ -81,15 +81,20 @@ export async function seedFirestoreIfEmpty() {
       await setDoc(setRef, INITIAL_SETTINGS);
     }
 
-    // 4. Media
+    // 4. Media - add missing media items
     const medSnap = await getDocs(collection(db, COLLECTIONS.MEDIA));
-    if (medSnap.empty) {
-      const batch = writeBatch(db);
-      for (const item of INITIAL_MEDIA) {
+    const existingMedIds = new Set(medSnap.docs.map(d => d.id));
+    const medBatch = writeBatch(db);
+    let hasMedBatch = false;
+    for (const item of INITIAL_MEDIA) {
+      if (!existingMedIds.has(item.id)) {
         const ref = doc(db, COLLECTIONS.MEDIA, item.id);
-        batch.set(ref, item);
+        medBatch.set(ref, item);
+        hasMedBatch = true;
       }
-      await batch.commit();
+    }
+    if (hasMedBatch) {
+      await medBatch.commit();
     }
 
     // 5. Comments
