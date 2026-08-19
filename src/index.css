@@ -1,0 +1,158 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --brand-navy: #071A33;
+    --brand-blue: #0066CC;
+    --brand-orange: #F7931E;
+    --brand-bg: #F8FAFC;
+    --brand-text: #172033;
+    --brand-muted: #64748B;
+  }
+
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background-color: #F8FAFC;
+    color: #172033;
+  }
+
+  h1, h2, h3, .font-serif-heading {
+    font-family: 'Lora', Georgia, Cambria, 'Times New Roman', serif;
+  }
+
+  .font-editorial-body {
+    font-family: 'Source Serif 4', Georgia, serif;
+  }
+}
+
+/* Custom editorial article typography */
+.article-prose {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #1E293B;
+}
+
+.article-prose p {
+  margin-bottom: 1.5rem;
+}
+
+.article-prose h2 {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #071A33;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.3;
+}
+
+.article-prose h3 {
+  font-family: 'Lora', Georgia, serif;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: #0F172A;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.35;
+}
+
+.article-prose ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.article-prose ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.article-prose li {
+  margin-bottom: 0.5rem;
+}
+
+.article-prose blockquote {
+  border-left: 4px solid #0066CC;
+  padding-left: 1.25rem;
+  font-style: italic;
+  color: #334155;
+  margin: 1.75rem 0;
+  background-color: #F1F5F9;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.article-prose code {
+  background-color: #E2E8F0;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.9em;
+  font-family: monospace;
+}
+
+.article-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
+  font-size: 0.95rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.article-prose th, .article-prose td {
+  border: 1px solid #CBD5E1;
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+.article-prose th {
+  background-color: #071A33;
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.article-prose tr:nth-child(even) {
+  background-color: #F8FAFC;
+}
+
+/* Custom scrollbar for smooth editorial feel */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #F1F5F9;
+}
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Smooth continuous marquee for Trends Wire (calm, legible reading speed) */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 95s linear infinite;
+}
+
+.animate-marquee-paused {
+  animation-play-state: paused;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}

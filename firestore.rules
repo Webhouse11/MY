@@ -1,0 +1,11 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ClementTrends Global Content Collections
+    // Public visitors can read articles, media, ads, settings, comments
+    // Content management and updates persist permanently
+    match /{document=**} {
+      allow read, write: if true;
+    }
+  }
+}
