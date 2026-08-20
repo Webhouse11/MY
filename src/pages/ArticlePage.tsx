@@ -9,6 +9,8 @@ import { CommentsSection } from '../components/public/CommentsSection';
 import { ArticleCard } from '../components/public/ArticleCard';
 import { ReviewCard } from '../components/public/ReviewCard';
 import { AdvertisementSlot } from '../components/layout/AdvertisementSlot';
+import { updatePageSEO, resetDefaultSEO } from '../utils/seoUtils';
+import { getArticlePersonalUrl } from '../utils/linkUtils';
 import {
   Clock,
   Calendar,
@@ -46,8 +48,23 @@ export const ArticlePage: React.FC = () => {
   useEffect(() => {
     if (article) {
       recordArticleView(article.slug);
+
+      // Dynamically update document title, Open Graph, Twitter cards, and Schema LD+JSON
+      const personalUrl = getArticlePersonalUrl(article.slug);
+      updatePageSEO({
+        title: article.title,
+        description: article.excerpt || article.seo?.metaDescription,
+        image: article.coverImage,
+        url: personalUrl,
+        type: 'article',
+        article: article
+      });
     }
-  }, [article?.slug]);
+
+    return () => {
+      resetDefaultSEO();
+    };
+  }, [article?.slug, article?.title, article?.coverImage, article?.excerpt]);
 
   if (!article) {
     return (
@@ -530,6 +547,7 @@ export const ArticlePage: React.FC = () => {
             title={article.title}
             slug={article.slug}
             excerpt={article.excerpt}
+            coverImage={article.coverImage}
           />
 
           {/* Author Bio Card */}

@@ -18,12 +18,14 @@ interface ArticlePermalinkCardProps {
   title: string;
   slug: string;
   excerpt?: string;
+  coverImage?: string;
 }
 
 export const ArticlePermalinkCard: React.FC<ArticlePermalinkCardProps> = ({
   title,
   slug,
-  excerpt
+  excerpt,
+  coverImage
 }) => {
   const [copied, setCopied] = useState(false);
   const [showQr, setShowQr] = useState(false);
@@ -199,6 +201,18 @@ export const ArticlePermalinkCard: React.FC<ArticlePermalinkCardProps> = ({
         >
           <Share2 className="w-3.5 h-3.5" />
           <span>LinkedIn</span>
+        </a>
+
+        {/* Facebook */}
+        <a
+          href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="px-3 py-1 rounded-xl text-xs font-semibold bg-[#1877F2]/15 hover:bg-[#1877F2]/25 text-[#1877F2] transition-colors flex items-center gap-1.5 shadow-2xs"
+          title="Share to Facebook"
+        >
+          <span className="font-bold">f</span>
+          <span>Facebook</span>
         </a>
 
         {/* Telegram */}

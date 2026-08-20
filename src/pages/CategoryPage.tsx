@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApp } from '../context/AppContext';
 import { ArticleCard } from '../components/public/ArticleCard';
 import { ReviewCard } from '../components/public/ReviewCard';
 import { AdvertisementSlot } from '../components/layout/AdvertisementSlot';
 import { Filter, Layers, ArrowLeft, Sparkles, BookOpen } from 'lucide-react';
 import { CategoryId } from '../types';
+import { updatePageSEO, resetDefaultSEO } from '../utils/seoUtils';
+import { getCategoryPersonalUrl } from '../utils/linkUtils';
 
 export const CategoryPage: React.FC = () => {
   const { currentRoute, categories, articles, goHome, goToCategory } = useApp();
@@ -13,6 +15,21 @@ export const CategoryPage: React.FC = () => {
 
   const categorySlug = currentRoute.categorySlug || 'investment';
   const categoryObj = categories.find(c => c.slug === categorySlug) || categories[0];
+
+  useEffect(() => {
+    if (categoryObj) {
+      updatePageSEO({
+        title: `${categoryObj.name} — Latest Intelligence & Insights`,
+        description: categoryObj.description,
+        url: getCategoryPersonalUrl(categoryObj.slug),
+        type: 'website'
+      });
+    }
+
+    return () => {
+      resetDefaultSEO();
+    };
+  }, [categoryObj?.name, categoryObj?.slug, categoryObj?.description]);
 
   // Filter articles
   let filtered = articles.filter(
