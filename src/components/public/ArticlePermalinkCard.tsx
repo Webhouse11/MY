@@ -10,7 +10,9 @@ import {
   Send,
   Mail,
   Sparkles,
-  Smartphone
+  Smartphone,
+  Eye,
+  Globe
 } from 'lucide-react';
 import { getArticlePersonalUrl, copyToClipboard } from '../../utils/linkUtils';
 
@@ -29,8 +31,10 @@ export const ArticlePermalinkCard: React.FC<ArticlePermalinkCardProps> = ({
 }) => {
   const [copied, setCopied] = useState(false);
   const [showQr, setShowQr] = useState(false);
+  const [showPreview, setShowPreview] = useState(true);
 
   const personalUrl = getArticlePersonalUrl(slug);
+  const displayImage = coverImage || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop';
   const encodedTitle = encodeURIComponent(`${title} | ClementTrends`);
   const encodedUrl = encodeURIComponent(personalUrl);
   const encodedExcerpt = encodeURIComponent(excerpt || title);
@@ -71,18 +75,31 @@ export const ArticlePermalinkCard: React.FC<ArticlePermalinkCardProps> = ({
           </div>
           <div>
             <h4 className="text-sm font-bold text-[#071A33] flex items-center gap-1.5">
-              Personal Post Link &amp; Sharing
+              Personal Post Link &amp; Social Share
               <span className="px-2 py-0.5 rounded-full bg-blue-100 text-[#0066CC] text-[10px] font-bold uppercase tracking-wider">
                 Direct URL
               </span>
             </h4>
             <p className="text-xs text-slate-500">
-              Share this dedicated link with your audience, friends, and social networks
+              Copy this link or share directly to display your post headline and cover image preview
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-2">
+          <button
+            onClick={() => setShowPreview(!showPreview)}
+            className={`px-3 py-1.5 rounded-xl border text-xs font-bold transition-all shadow-xs flex items-center gap-1.5 cursor-pointer ${
+              showPreview
+                ? 'bg-blue-600 text-white border-blue-600'
+                : 'bg-white hover:bg-slate-100 border-slate-200 text-slate-700'
+            }`}
+            title="Toggle Social Share Link Preview"
+          >
+            <Eye className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Social Card Preview</span>
+          </button>
+
           {typeof navigator !== 'undefined' && 'share' in navigator && (
             <button
               onClick={handleNativeShare}
@@ -136,6 +153,50 @@ export const ArticlePermalinkCard: React.FC<ArticlePermalinkCardProps> = ({
         </button>
       </div>
 
+      {/* Live Social Media Preview Card (WhatsApp / X / Facebook / LinkedIn) */}
+      {showPreview && (
+        <div className="p-4 rounded-2xl bg-white border border-blue-100/80 shadow-xs space-y-2.5">
+          <div className="flex items-center justify-between text-xs text-slate-500 pb-1 border-b border-slate-100">
+            <span className="font-semibold text-slate-700 flex items-center gap-1.5">
+              <Globe className="w-3.5 h-3.5 text-[#0066CC]" /> Social Media Rich Link Preview (WhatsApp, 𝕏, Facebook, LinkedIn)
+            </span>
+            <span className="text-[11px] text-emerald-600 font-medium bg-emerald-50 px-2 py-0.5 rounded-md">
+              ✓ OpenGraph &amp; Feature Image Active
+            </span>
+          </div>
+
+          <div className="max-w-md mx-auto sm:mx-0 rounded-xl overflow-hidden border border-slate-200 bg-slate-50/70 shadow-xs transition-transform hover:shadow-sm">
+            {/* Cover Image */}
+            <div className="relative aspect-video w-full overflow-hidden bg-slate-200">
+              <img
+                src={displayImage}
+                alt={title}
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+              <div className="absolute top-2 left-2 px-2 py-0.5 rounded-md bg-black/60 backdrop-blur-xs text-[10px] font-bold text-white tracking-wide uppercase">
+                Featured Cover Image
+              </div>
+            </div>
+
+            {/* Snippet Body */}
+            <div className="p-3 bg-white space-y-1">
+              <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                clementtrends.com.ng
+              </div>
+              <h5 className="text-xs sm:text-sm font-bold text-slate-900 line-clamp-2 leading-snug">
+                {title}
+              </h5>
+              {excerpt && (
+                <p className="text-[11px] text-slate-500 line-clamp-2 leading-relaxed">
+                  {excerpt}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* QR Code Expansion Modal/Box */}
       {showQr && (
         <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col sm:flex-row items-center gap-5 animate-in fade-in slide-in-from-top-2 duration-150">
@@ -173,7 +234,7 @@ export const ArticlePermalinkCard: React.FC<ArticlePermalinkCardProps> = ({
           target="_blank"
           rel="noopener noreferrer"
           className="px-3 py-1 rounded-xl text-xs font-semibold bg-[#25D366]/15 hover:bg-[#25D366]/25 text-[#128C7E] transition-colors flex items-center gap-1.5 shadow-2xs"
-          title="Share to WhatsApp"
+          title="Share to WhatsApp with Cover Preview & Headline"
         >
           <MessageCircle className="w-3.5 h-3.5" />
           <span>WhatsApp</span>
@@ -240,3 +301,4 @@ export const ArticlePermalinkCard: React.FC<ArticlePermalinkCardProps> = ({
     </div>
   );
 };
+

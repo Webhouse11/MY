@@ -6,9 +6,11 @@ interface SocialShareProps {
   title: string;
   url?: string;
   articleSlug?: string;
+  excerpt?: string;
+  coverImage?: string;
 }
 
-export const SocialShare: React.FC<SocialShareProps> = ({ title, url, articleSlug }) => {
+export const SocialShare: React.FC<SocialShareProps> = ({ title, url, articleSlug, excerpt }) => {
   const [copied, setCopied] = useState(false);
   const shareUrl = url || (articleSlug ? getArticlePersonalUrl(articleSlug) : (typeof window !== 'undefined' ? window.location.href : ''));
   const encodedTitle = encodeURIComponent(`${title} | ClementTrends`);
@@ -27,7 +29,7 @@ export const SocialShare: React.FC<SocialShareProps> = ({ title, url, articleSlu
       try {
         await navigator.share({
           title,
-          text: `Read "${title}" on ClementTrends:`,
+          text: excerpt || `Read "${title}" on ClementTrends:`,
           url: shareUrl
         });
       } catch (err) {
@@ -60,10 +62,21 @@ export const SocialShare: React.FC<SocialShareProps> = ({ title, url, articleSlu
         href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 text-slate-800 hover:bg-slate-200 transition-colors flex items-center gap-1"
+        className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-900 text-white hover:bg-black transition-colors flex items-center gap-1"
         title="Share on X"
       >
         <span className="font-bold">𝕏</span> Post
+      </a>
+
+      {/* Facebook */}
+      <a
+        href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#1877F2]/10 text-[#1877F2] hover:bg-[#1877F2]/20 transition-colors flex items-center gap-1"
+        title="Share on Facebook"
+      >
+        <span className="font-bold text-xs">f</span> Facebook
       </a>
 
       {/* LinkedIn */}

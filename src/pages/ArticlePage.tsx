@@ -435,7 +435,12 @@ export const ArticlePage: React.FC = () => {
 
       {/* Social Share Bar Top */}
       <div className="max-w-4xl mx-auto">
-        <SocialShare title={article.title} articleSlug={article.slug} />
+        <SocialShare
+          title={article.title}
+          articleSlug={article.slug}
+          excerpt={article.excerpt}
+          coverImage={article.coverImage}
+        />
       </div>
 
       {/* Main Reading Grid: 8 Cols Prose + 4 Cols Intelligent Sidebar */}
